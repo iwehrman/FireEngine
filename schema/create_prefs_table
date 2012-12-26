@@ -1,0 +1,6 @@
+create table Prefs (
+	PrefID serial primary key,
+	PrefUser int not null,
+	PrefKey varchar unique not null,
+	PrefValue varchar
+);

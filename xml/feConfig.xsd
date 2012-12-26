@@ -1,0 +1,145 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<xs:schema xmlns:xs = "http://www.w3.org/2001/XMLSchema" xmlns="">
+
+	<xs:element name="Service">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Property"  minOccurs="0" maxOccurs="unbounded" />
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:sequence>
+						<xs:element ref="CachedResponseBundle" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+					<xs:sequence>
+						<xs:element ref="SystemConnection" />
+						<xs:element ref="Connection" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+					<xs:sequence>
+						<xs:element ref="Template" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+					<xs:sequence>
+						<xs:element ref="DependencySet" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="class" use="required" type="xs:string"/>
+			<xs:attribute name="load" type="xs:boolean"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Property">
+		<xs:complexType>
+			<xs:attribute name="name" use="required" type="xs:string" />
+			<xs:attribute name="value" use="required" type="xs:string" />
+		</xs:complexType>
+	</xs:element>	
+	
+	<xs:element name="FireEngine">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Property" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Service" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="debug" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="Connection">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="Constraint" minOccurs="0" />
+			</xs:sequence>		
+			<xs:attributeGroup ref="connectionAtts" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="SystemConnection">
+		<xs:complexType>
+			<xs:attributeGroup ref="connectionAtts" />
+		</xs:complexType>
+	</xs:element>	
+
+	<xs:element name="Constraint">
+		<xs:complexType>
+			<xs:attribute name="oid" type="xs:integer"/>
+			<xs:attribute name="aid" type="xs:integer"/>
+			<xs:attribute name="id" type="xs:integer"/>
+		</xs:complexType>
+	</xs:element>
+		
+	<xs:attributeGroup name="connectionAtts">
+		<xs:attribute name="name" use="required" type="xs:string"/>
+		<xs:attribute name="user" use="required" type="xs:string"/>
+		<xs:attribute name="password" use="required" type="xs:string" />		
+		<xs:attribute name="url" use="required" type="xs:anyURI"/>
+		<xs:attribute name="driver" use="required" type="xs:string" />
+		<xs:attribute name="maxConnections" type="xs:integer"/>
+		<xs:attribute name="initConnections" type="xs:integer"/>
+		<xs:attribute name="waitIfBusy" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	
+	<xs:element name="Template">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Property" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Block" minOccurs="1" maxOccurs="unbounded" />
+			</xs:sequence>	
+			<xs:attribute name="name" use="required" type="xs:string"/>
+			<xs:attribute name="file" use="required" type="xs:string" />
+			<xs:attribute name="cache" type="xs:boolean"/>
+			<xs:attribute name="expires" type="xs:integer"/>
+			<xs:attribute name="contentType" type="xs:string"/>
+			<xs:attribute name="size" type="xs:integer" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="Block">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Property" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Parameter" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="Dependency" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="name" use="required" type="xs:string"/>
+			<xs:attribute name="file" use="required" type="xs:string" />
+		</xs:complexType>
+	</xs:element>	
+
+	<xs:element name="Parameter">
+		<xs:complexType>
+			<xs:attribute name="class" use="required" type="xs:string" />
+			<xs:attribute name="required" type="xs:boolean" />
+			<xs:attribute name="multiple" type="xs:boolean" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="CachedResponseBundle">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Dependency" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="uri" use="required" type="xs:anyURI" />
+			<xs:attribute name="expires" type="xs:integer"/>
+			<xs:attribute name="contentType" type="xs:string"/>
+			<xs:attribute name="size" type="xs:integer" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="Dependency">
+		<xs:complexType>
+			<xs:attribute name="connection" use="required" type="xs:string"/>
+			<xs:attribute name="table" use="required" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="DependencySet">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Dependency" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+			
+</xs:schema>
+

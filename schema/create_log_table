@@ -1,0 +1,11 @@
+create table log (
+	LogID serial primary key,
+	LogLevel varchar(32) not null, 
+	LogMillis bigint not null,
+	LogMessage varchar not null,
+	LogClass varchar(128),
+	LogMethod varchar(128),
+	LogThrown varchar);
+	
+grant all on log to ${db.user};
+grant all on log_logid_seq to ${db.user}

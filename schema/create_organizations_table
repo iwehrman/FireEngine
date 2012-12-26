@@ -1,0 +1,18 @@
+create table Organizations (
+	OrgID serial primary key,
+	OrgName varchar(255) unique not null,
+	OrgShortName varchar(255) unique not null,
+	OrgURL varchar(255),
+	OrgAddress1 varchar(255),
+	OrgAddress2 varchar(255),
+	OrgCity varchar(255),
+	OrgState varchar(10),
+	OrgZip varchar(12),
+	OrgCountry varchar(64),
+	OrgPhone varchar(32),
+	OrgDefaultAID int not null check (OrgDefaultAID <= 3),
+	OrgDateCreated timestamp not null,
+	OrgDateModified timestamp not null
+);
+grant all on organizations to ${db.user};
+grant all on organizations_orgid_seq to ${db.user};

@@ -1,0 +1,10 @@
+create table constraints (
+	ConstraintID serial primary key,
+	CID int,
+	COID int,
+	CAID int check (CAID <= 3),
+	CONSTRAINT users FOREIGN KEY (CID) REFERENCES users(userid),
+	CONSTRAINT organizations FOREIGN KEY (COID) REFERENCES organizations(orgid)
+);
+grant all on constraints to ${db.user};
+grant all on constraints_constraintid_seq to ${db.user};

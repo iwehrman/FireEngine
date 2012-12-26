@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FireEngine debug="true"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="http://labfire.com/xml/fe/feConfig.xsd">
+
+ 	<Property name="exitoniniterror" value="true" />
+ 	<Property name="errorPage" value="/error.jsp" />
+ 	<Property name="loginPage" value="/login.jsp" />
+ 	<Property name="admin" value="webmaster@labfire.com" />
+	<Property name="debug" value="true" />
+	<Property name="virtualRoot" value="/@deploy.context@/" />
+	<Property name="hostName" value="@deploy.host@:@deploy.port@" />
+	<Property name="blank" value="/images/blank.gif" />
+
+	<Service class="com.labfire.fe.auth.AuthenticationService">
+  		<Property name="secondstolive" value="1800" />
+	</Service>
+
+	<Service class="com.labfire.fe.cache.CacheService">
+ 	 	<Property name="sleepTime" value="60000" />
+	</Service>
+
+	<Service class="com.labfire.fe.db.ConnectionService">
+ 		<SystemConnection name="fe" user="@db.user@" password="@db.pass@" url="@db.url@" 
+			driver="org.postgresql.Driver" maxConnections="50" initConnections="1"
+			waitIfBusy="true" />
+	</Service>
+
+	<Service class="com.labfire.fe.cron.CronService">
+  		<Property name="sleepTime" value="60000" />
+	</Service>
+
+	<Service class="com.labfire.fe.log.LogService">
+		<Property name="logDir" value="@deploy.approot@/logs" />
+		<!-- Property name="format" value="xml" / -->
+		<!--Property name="mailto" value="ian@labfire.com" / -->
+	</Service>
+
+	<Service class="com.labfire.fe.mail.MailService">
+ 		<Property name="host" value="mail.labfire.com" />
+		<Property name="defaultUser" value="FireEngine" />
+		<Property name="defaultPass" value="fe12345" />
+	</Service>
+
+	<Service class="com.labfire.fe.auth.OrgAuthenticationService">
+  		<Property name="secondstolive" value="1800" />
+	</Service>
+
+	<Service class="com.labfire.fe.template.TemplateService">
+		<Property name="servletName" value="@deploy.template@" />
+		<Property name="default" value="admin" />
+		<Property name="parameter" value="page" />
+		
+		<Template name="admin" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/index.jsp" />
+			<Block name="secondary" file="/t_admin/user.jsp" />
+		</Template>
+		
+		<Template name="admin_authentication_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/AuthenticationPanel.jsp">
+				<Dependency connection="fe" table="users" />
+			</Block>
+			<Block name="secondary" file="/t_admin/OrgAuthenticationPanel.jsp">
+				<Dependency connection="fe" table="organizations" />
+			</Block>
+		</Template>
+		
+		<Template name="admin_authentication_all_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/AuthenticationAllPanel.jsp">
+				<Dependency connection="fe" table="users" />
+			</Block>
+		</Template>
+		
+		<Template name="admin_authentication_edit_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/AuthenticationEditPanel.jsp">
+				<Parameter class="com.labfire.fe.common.TransientUserFactory" />
+				<Dependency connection="fe" table="users" />
+				<Dependency connection="fe" table="organizations" />
+			</Block>
+		</Template>	
+
+		<Template name="admin_authentication_insert_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/AuthenticationInsertPanel.jsp" />
+		</Template>
+		
+		<Template name="admin_orgauthentication_all_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/OrgAuthenticationAllPanel.jsp">
+				<Dependency connection="fe" table="organizations" />
+			</Block>
+		</Template>
+	
+		<Template name="admin_orgauthentication_edit_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/OrgAuthenticationEditPanel.jsp">
+				<Parameter class="com.labfire.fe.common.OrganizationFactory" />
+				<Dependency connection="fe" table="organizations" />
+			</Block>
+		</Template>
+
+		<Template name="admin_orgauthentication_insert_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/OrgAuthenticationInsertPanel.jsp" />
+		</Template>
+		
+		<Template name="admin_authorization_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/AuthorizationPanel.jsp">
+				<Dependency connection="fe" table="users" />
+				<Dependency connection="fe" table="organizations" />
+				<Dependency connection="fe" table="requests" />
+				<Dependency connection="fe" table="constraints" />
+			</Block>
+		</Template>
+		
+		<Template name="admin_authorization_edit_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/AuthorizationEditPanel.jsp">
+				<Parameter class="com.labfire.fe.auth.RequestAuthFactory" />
+				<Dependency connection="fe" table="users" />
+				<Dependency connection="fe" table="organizations" />
+				<Dependency connection="fe" table="requests" />
+				<Dependency connection="fe" table="constraints" />
+			</Block>
+		</Template>
+		
+		<Template name="admin_authorization_insert_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/AuthorizationInsertPanel.jsp">
+				<Dependency connection="fe" table="users" />
+				<Dependency connection="fe" table="organizations" />
+			</Block>
+		</Template>
+		
+		<Template name="admin_constraint_insert_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/ConstraintInsertPanel.jsp">
+				<Parameter class="com.labfire.fe.auth.RequestAuthFactory" />
+				<Dependency connection="fe" table="users" />
+				<Dependency connection="fe" table="organizations" />
+				<Dependency connection="fe" table="requests" />
+				<Dependency connection="fe" table="constraints" />
+			</Block>
+		</Template>
+		
+		<Template name="admin_about" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/about.jsp" />
+			<Block name="secondary" file="/t_admin/system.jsp" />
+		</Template>
+		
+		<Template name="admin_status" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/status.jsp" />
+		</Template>
+
+		<Template name="admin_log_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/LogPanel.jsp">
+				<Dependency connection="fe" table="log" />
+			</Block>
+		</Template>
+		
+		<Template name="admin_log_panel_detail" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/LogPanelDetail.jsp">
+				<Dependency connection="fe" table="log" />
+			</Block>
+		</Template>								
+
+		<Template name="admin_cache_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/CachePanel.jsp" />
+		</Template>
+
+		<Template name="admin_cron_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/CronPanel.jsp" />
+		</Template>	
+
+		<Template name="admin_connection_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/ConnectionPanel.jsp" />
+		</Template>
+		
+		<Template name="admin_prefs_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/PrefsPanel.jsp">
+				<Dependency connection="fe" table="prefs" />
+			</Block>
+		</Template>
+		
+		<Template name="admin_prefs_insert_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/PrefsInsertPanel.jsp"/>
+		</Template>
+		
+		<Template name="admin_prefs_edit_panel" file="/t_admin/admin_template.jsp">
+			<Block name="main" file="/t_admin/PrefsEditPanel.jsp">
+				<Dependency connection="fe" table="prefs" />
+			</Block>
+		</Template>
+
+		<Template name="logout" file="/servlet/com.labfire.fe.auth.LogOutServlet" />
+	</Service>
+</FireEngine>
+

@@ -1,0 +1,373 @@
+body {
+	margin: 0;
+	padding: 0;      
+	color: black;
+	font: 11px/1.5 Verdana, Arial, Helvetica, sans-serif;
+	height: 100%;
+	background-color: #aaa;
+}
+
+table.bugs {
+	border:2px solid black; 
+	border-bottom: 0px;
+}
+
+td.bugs {
+	font: 10px/1.5 Verdana, Arial, Helvetica, sans-serif;
+	background-color: #9bd;
+	border-bottom:2px solid black;
+	border-left: 1px dotted black;
+	padding: 2px;
+}
+
+td.bugsHigh {
+	font: 10px/1.5 Verdana, Arial, Helvetica, sans-serif;
+	background-color: #aaa;
+	border-bottom:2px solid black;
+	border-left: 1px dotted black;
+	padding: 2px;
+}
+
+th.bugs {
+	font-weight: bold;
+	color:white;
+	background-color: #579;
+	border-bottom:2px solid black;
+	border-left: 1px dotted black;
+	padding: 2px;
+}
+
+td.bugs:first-child {
+	border-left: 0px dotted black;
+}
+
+td.bugsHigh:first-child {
+	border-left: 0px dotted black;
+}
+
+th.bugs:first-child {
+	border-left: 0px dotted black;
+}
+
+input,select,textarea {
+	border: 1px solid #aaa;
+	padding: 2px;
+	background-color: #ccc;
+}
+
+input:focus,select:focus,textarea:focus {
+	background-color: #9bd;
+	border: 1px solid #579;
+}
+/*
+input:hover,select:hover,textarea:hover {
+	border: 1px solid #579;
+}
+*/
+input[type="submit"] {
+	background-color: #9bd;
+}
+
+input[type="submit"]:hover {
+	background-color: #9bd;
+	color: #900;
+}
+
+input[type="reset"] {
+	background-color: #9bd;
+}
+
+input[type="reset"]:hover {
+	background-color: #9bd;
+	color: #900;
+}
+
+
+a:link { /* main anchors */
+	color: #c00;
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #a00;
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #f00;
+	/*text-decoration: underline;*/
+	background-color: white;
+}
+
+a:focus {
+	color: #f00;
+	text-decoration: none;
+	background-color: white;
+	border-bottom: 1px solid #9bd;
+}
+
+a.menuanchor { /* menu anchors */
+	color: white;
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a.menuanchor:visited {
+	color: white;
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a.menuanchor:hover {
+	color: white;
+	background-color: transparent;
+	text-decoration: underline;
+}
+
+a.menuanchor:focus {
+	color: white;
+	background-color: transparent;
+	text-decoration: underline;
+	border-bottom: 1px solid #9bd;
+}
+
+a.navanchor { /* navigation anchors */
+	color: black;
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a.navanchor:visited {
+	color: black;
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a.navanchor:hover {
+	color: black;
+	background-color: transparent;
+	text-decoration: underline;
+}
+
+a.navanchor:focus {
+	color: black;
+	background-color: transparent;
+	text-decoration: underline;
+	border-bottom: 1px solid #579;
+}
+
+a.imganchor { /* image anchors */
+	background-color: transparent;
+	border: 0px;
+}
+
+a.imganchor:visited {
+	background-color: transparent;
+	border: 0px;
+}
+
+a.imganchor:hover {
+	background-color: transparent;
+	border: 0px;
+}
+
+.wrapper { 
+	height: 66px;
+}
+
+.header {
+	width: 100%; 
+	height: 28px; /* ie5win fudge begins */
+	background-image: url(/ie5bg.gif);
+	voice-family: "\"}\"";
+	voice-family:inherit;
+	background-image: none;
+	background-color: red;
+	height: 30px;
+	border-bottom: 2px solid black;
+}
+
+html>body .header {
+	height: 30px;
+	background-color: red;
+	background-image: none;
+	border-bottom: 2px solid black;
+}	/* ie5win fudge ends */
+
+.headerleft {
+	float: left; 
+	height: 30px; 
+	width: 42%;
+}
+
+.headerright {
+	float: right; 
+	height: 30px; 
+	width: 42%; 
+	text-align: right; 
+}
+
+.headerimg {
+	margin-left: 5px;
+}
+
+.logo {
+	border: 0px;
+}
+
+.menu {
+	height: 18px; 
+	width: 100%; 
+	background-color: #579; 
+	border-bottom: 2px solid black; 
+	overflow: hidden;
+	voice-family: "\"}\"";
+	voice-family:inherit;
+	height: 15px;
+}
+
+html>body .menu {
+	height: 15px;
+}
+
+.menuleft {
+	float: left; 
+	height: 15px; 
+	width: 50%;
+}
+
+.menuright {
+	height: 15px; 
+	width: 38%;  
+	overflow: hidden;
+	float:right;
+}
+
+.menutext {
+	font: 10px Verdana, Arial, Helvetica, sans-serif;
+	color: white;
+	vertical-align: top;
+	line-height: 15px;
+	padding: 0px 10px;
+}
+
+.menufloattext {
+	font: 10px Verdana, Arial, Helvetica, sans-serif;
+	color: white;
+	vertical-align: top;
+	line-height: 15px;
+	letter-spacing: 0.2em;
+}
+
+.nav {
+	height: 18px;
+	width: 100%; 
+	background-color: #9bd; 
+	border-bottom: 2px solid black; 
+	overflow: hidden;
+	/* background-image: url(fade.png);
+	background-repeat: no-repeat;
+	background-position: right; */
+	voice-family: "\"}\"";
+	voice-family:inherit;
+	height: 15px;
+}
+
+html>body .nav {
+	height: 15px;
+}
+
+.navleft {
+	float: left; 
+	height: 15px; 
+	width: 50%;
+}
+
+.navright {
+	float: right; 
+	height: 15px; 
+	width: 38%;  
+	overflow: hidden;
+}
+
+.navtext {
+	font: 10px Verdana, Arial, Helvetica, sans-serif;
+	color: black;
+	vertical-align: top;
+	line-height: 15px;
+	padding: 0px 10px;
+}
+
+.navfloattext {
+	font: 10px Verdana, Arial, Helvetica, sans-serif;
+	color: black;
+	vertical-align: top;
+	line-height: 15px;
+	letter-spacing: 0.2em;
+}
+
+.content {
+	margin: 20px 10%;
+	border: 2px solid black;
+	border-top: 4px solid black;
+	background-color: white;
+	background-image: url(lab6_bg.png); 
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
+.story {
+	background-color: #eee;
+	border: 1px solid black;
+	border-top: 4px solid #579;
+	margin: 10px;
+	padding: 5px 15px; 
+	overflow: hidden;
+}
+
+.story:first-line {
+	font-variant: small-caps;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div#ahem {
+	display: none;
+}
+
+
+.footer {
+	height: 36px; 
+	margin: 20px; 
+	margin-left: 18%; 
+	margin-right: 18.5%;
+}
+
+.footertop {
+	height: 15px; 
+	width: 100%; 
+	background-color: #9bd; 
+	border: 2px solid black; 
+	overflow: hidden;
+}
+
+.footerbottom {
+	height: 15px; 
+	width: 100%; 
+	background-color: #579; 
+	border: 2px solid black;
+	border-top: 0px;
+	overflow: hidden; 
+	background-image: url(lab6_tiny2.gif); 
+	background-position: bottom right; 
+	background-repeat: no-repeat;
+}
+
+.copyright {
+	font-size: 8px;
+	padding-left: 10px;
+}
+

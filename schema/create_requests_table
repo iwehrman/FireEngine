@@ -1,0 +1,6 @@
+create table requests (
+	RequestID serial primary key,
+	RequestURI varchar(4092) not null,
+	RequestConstraint int not null,
+	CONSTRAINT constraints FOREIGN KEY (RequestConstraint) references constraints(constraintid)
+);

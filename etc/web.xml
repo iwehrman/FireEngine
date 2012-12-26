@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+	"http://java.sun.com/j2ee/dtds/web-app_2_3.dtd">
+
+<web-app>
+
+	<context-param>
+		<param-name>virtualRoot</param-name>
+		<param-value>/@deploy.context@/</param-value>
+		<description>virtual root directory for this webapp</description>
+	</context-param>
+
+	<!-- Define the filters within the Web Application -->
+	<filter>
+		<filter-name>AuthFilter</filter-name>
+		<filter-class>com.labfire.fe.auth.AuthFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>CacheFilter</filter-name>
+		<filter-class>com.labfire.fe.cache.CacheFilter</filter-class>
+	</filter>
+
+	<!-- Map the filter to a Servlet or URL -->
+	<filter-mapping>
+		<filter-name>AuthFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+	<!-- Define application events listeners -->
+	<listener>
+		<listener-class>com.labfire.fe.FireEngineContextListener</listener-class>
+	</listener>
+	
+	<!-- TemplateServlet shortcut -->
+	<servlet>
+		<servlet-name>TemplateServlet</servlet-name>
+		<servlet-class>com.labfire.fe.template.TemplateServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>TemplateServlet</servlet-name>
+		<url-pattern>/@deploy.template@</url-pattern>
+	</servlet-mapping>
+	
+	<taglib>
+		<taglib-uri>/fe.tld</taglib-uri>
+		<taglib-location>/WEB-INF/fe-taglib.tld</taglib-location>
+	</taglib>
+
+</web-app>

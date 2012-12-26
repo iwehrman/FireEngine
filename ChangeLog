@@ -1,0 +1,110 @@
+1.4.1
+o Make constants in Dates public
+o LogSweeper bug fix
+o Invalidate session if authtoken is invalid 
+
+1.3.21
+o Remove excess debug messages in Dependent
+o Turn of mail debug output
+o Various control panel ui improvements
+o Escaping a null string returns an empty string instead of null
+
+1.3.20
+o Minor fixes for compatibility with Jetty and Resin
+o Remove ConfigService
+o Remove some PostgreSQL dependencies 
+o CronService fixes
+o Fix error page emailing
+
+1.3.19
+o Force users to have unique email addresses
+o Add LogSweeper to delete old log records
+o Many UI updates to FireEngine control panel for handling lots of users and
+  organizations
+o Add CompressFilter to provide Transfer-Encoding: gzip
+
+1.3.18
+o Add better reporting of sent/unsent/invalid addresses in MailWorker
+o Back out some broken MailAuthenticator features
+o ConstraintFactory bugfix
+
+1.3.17
+o Add loginAllowed parameter to users
+o Critical bugfix to CachedObject, which prevented expiration of users. 
+
+1.3.16
+o Compatability fix with new version of the pgsql jdbc driver
+o Make FireEngineContext available from FireEngineConfig
+o Cleanups in LogService and Connections
+o New high-performance jdbc handler
+
+1.3.15
+o Strings.escapeHTML now links URLs automatically
+o Add Dependent object
+o Pull TransientUsers inside of AuthService, Organization inside
+  OrgAuthService
+
+1.3.14
+o Add GetImage servlet to the util package
+o Change default template request parameter to "page"
+o Add LoginReminder servlet, and fix a critical MailService bug
+
+1.3.13
+o Set proper http response status codes in certain places
+o Ability to specify a user's organizations at insertion time
+o Cron entry to vacuum/analyze databases every night
+
+1.3.12
+o TemplateFactory interface changes
+o Minor speed optimizations in CachedObject
+
+1.3.11
+o Many authorization fixes
+o Better password handling when inserting/updating users
+o Send mail asynchronously with the MailService
+o Smarter authentication with the MailService and closed relays
+
+1.3.10
+o Fix closing database connections on repository unload
+o New template property support
+o Relax requirements for adding request constraints
+
+1.3.9
+o Split FireEngine libs/core
+o Serializable cleanups
+o Log formatting cleanups
+
+1.3.8
+o Removed FireEngine.getVirtualRoot
+o Removed CacheService dependency from CacheFilter and TemplateServlet
+
+1.3.7
+o Fix cache deadlocks
+
+1.3.6
+o Updated the sqlCache
+o Bug fixes in ConnectionService.getLastModified
+
+1.3.5
+o New postCreate method in FireEngineComponent
+o New orgShortName field in Organization
+o Files utility class
+
+1.3.4
+o Sort services at startup with ServiceComparator
+o New dependency graph tracks last-modification times
+
+1.3.3
+o Multiple constraints per node
+o TemplateFactory changes
+
+1.3.2
+o Abillity to reload repositories at runtime
+o Additional constraint on the system database connection
+o Cleanup of the cache and cron thread code
+
+1.3.1
+o Named connections
+o New AuthenticationService.select() methods
+o New Constraint architecture
+o Templates now discover block parameters automatically

@@ -1,0 +1,7 @@
+create table sessions (
+	SessionID serial primary key,
+	SessionUser int not null,
+	SessionToken varchar(64) not null,
+	SessionStart timestamp default now(),
+	CONSTRAINT users FOREIGN KEY (SessionUSER) REFERENCES users(userid)
+);

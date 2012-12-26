@@ -1,0 +1,183 @@
+<project name="fe" default="dist" basedir=".">
+  <!-- include top-level common properties -->
+  <property file="build.properties"/>
+
+  <!-- set global properties for this build -->
+  <property name="src" value="src" />
+  <property name="build" value="build" />
+  <property name="dist"  value="dist" />
+  <property name="webapp" value="webapp" />
+  <property name="build.compiler"  value="jikes" />
+  <property name="build.compiler.pendantic" value="true" />
+  <property name="classpath" value="build;lib/jdom.jar;lib/ant.jar;lib/devpgjdbc2.jar;lib/servlet.jar;lib/activation.jar;lib/mail.jar;lib/cos.jar" />
+
+  <target name="prepare">
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}" />
+    <mkdir dir="${dist}" />
+  </target>
+
+  <target name="compile" depends="prepare">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}" classpath="${classpath}" />
+  </target>
+  
+  <target name="debug" depends="prepare">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}" classpath="${classpath}" debug="on" />
+  </target>
+
+  <target name="dist" depends="compile">
+    <jar jarfile="${dist}/FireEngine-core.jar">
+		<fileset dir="${build}" includes="**/FireEngine*.class" excludes="**/FireEngineInit.class **/FireEngineContextListener.class" />
+		<fileset dir="${build}" includes="**/ServiceComparator.class" />
+		<fileset dir="${build}" includes="**/auth/*Token.class" />
+		<fileset dir="${build}" includes="**/log/BootLogger.class" />
+		<fileset dir="${build}" includes="**/log/OneLineFormatter.class" />
+		<fileset dir="${build}" includes="**/common/*Exception.class" />
+		<fileset dir="${build}" includes="**/util/Strings.class" />
+    </jar>
+	<jar jarfile="${dist}/FireEngine-libs.jar">
+		<fileset dir="${build}" excludes="**/FireEngine*.class **/ServiceComparator.class **/auth/*Token.class **/log/BootLogger.class **/log/OneLineFormatter.class **/common/*Exception.class **/util/Strings.class" />
+		<fileset dir="${build}" includes="**/FireEngineContextListener.class **/FireEngineInit.class" />
+	</jar>
+ </target>
+
+ <target name="sign" depends="dist">
+   <exec dir="${dist}" executable="jarsigner">
+     <arg line="-storepass jupitermission FireEngine-core.jar labfire"/>
+   </exec>
+   <exec dir="${dist}" executable="jarsigner">
+     <arg line="-storepass jupitermission FireEngine-libs.jar labfire"/>
+   </exec>
+ </target>
+
+ <target name="deploy" depends="sign">
+   <copy file="${dist}/FireEngine-core.jar"
+           todir="/var/tomcat/common/lib" overwrite="yes" />
+   <copy file="${dist}/FireEngine-libs.jar"
+		   todir="${webapp}/WEB-INF/lib/" overwrite="yes" />
+ </target>
+
+ <target name="deployC" depends="dist">
+   <copy file="${dist}/FireEngine-core.jar"
+           todir="/var/tomcat/common/lib" overwrite="yes" />
+   <copy file="${dist}/FireEngine-libs.jar"
+		   todir="${webapp}/WEB-INF/lib/" overwrite="yes" />
+ </target>
+
+  <target name="clean">
+    <!-- Delete the ${build} and ${dist} directory trees -->
+	<delete dir="${build}" />
+	<delete dir="${dist}" />
+	<delete file="${deploy.war}" quiet="true" />
+  </target>
+
+  <target name="doc">
+    <mkdir dir="${dist}/docs" />
+    <javadoc packagenames="com.labfire.fe.*"
+    	sourcepath="src"
+        destdir="${dist}/docs"
+        classpath="${classpath}"
+        author="true"
+        version="true"
+        use="true"
+	windowtitle="Labfire: FireEngine" />
+    <copy todir="${dist.proot}/docs/" overwrite="yes">
+      <fileset dir="${dist}/docs" />
+    </copy>
+  </target>
+  
+  <target name="war" depends="dist">
+  	<delete dir="scratch" quiet="yes" />
+  	<mkdir dir="scratch" />
+ 	<copy todir="scratch">
+ 		<fileset dir="webapp" />
+ 	</copy>
+ 	<mkdir dir="scratch/WEB-INF" />
+ 	<copy todir="scratch/WEB-INF">
+ 		<fileset dir="etc" />	
+ 	</copy>
+ 	<replace dir="scratch/WEB-INF" summary="yes">
+ 		<replacefilter token="@deploy.root@" value="${deploy.root}" />
+ 		<replacefilter token="@deploy.libroot@" value="${deploy.libroot}" />
+ 		<replacefilter token="@deploy.approot@" value="${deploy.approot}" />
+ 		<replacefilter token="@deploy.docroot@" value="${deploy.docroot}" />
+ 		<replacefilter token="@deploy.context@" value="${deploy.context}" />
+ 		<replacefilter token="@deploy.host@" value="${deploy.host}" />
+ 		<replacefilter token="@deploy.port@" value="${deploy.port}" />
+ 		<replacefilter token="@deploy.admin@" value="${deploy.admin}" />
+ 		<replacefilter token="@deploy.template@" value="${deploy.template}" />
+ 		<replacefilter token="@db.user@" value="${db.user}" />
+ 		<replacefilter token="@db.pass@" value="${db.pass}" />
+ 		<replacefilter token="@db.url@" value="${db.url}" />
+ 	</replace>
+ 	<war destfile="${deploy.war}" basedir="scratch" webxml="scratch/WEB-INF/web.xml">
+ 		<lib dir="dist" excludes="FireEngine-core.jar" />
+ 	</war>
+ 	<delete dir="scratch" />
+  </target>
+  
+  <target name="wardeploy" depends="war">
+    <copy file="${deploy.war}" todir="${deploy.root}" overwrite="yes" />
+  </target>
+  
+  <target name="createdb">
+  	<exec executable="createuser">
+  		<arg line="--no-createdb"/>
+  		<arg line="--no-adduser"/>
+  		<arg line="${db.user}"/>
+  	</exec>
+  	<exec executable="createdb">
+  		<arg line="${db.name}"/>
+  	</exec>
+  	<sql driver="${db.driver}" 
+			url="${db.url}" 
+			userid="${db.user}" 
+			password="${db.pass}"
+			classpath="${classpath}">
+			ALTER USER ${db.user} PASSWORD '${db.pass}';
+	</sql>
+  </target>
+  
+  <target name="definedb">
+  	<sql driver="${db.driver}" 
+			url="${db.url}" 
+			userid="${db.user}" 
+			password="${db.pass}"
+			classpath="${classpath}">
+			<transaction src="schema/create_log_table"/>
+			<transaction src="schema/create_users_table"/>
+			<transaction src="schema/create_organizations_table"/>
+			<transaction src="schema/create_userorgs_table"/>
+			<transaction src="schema/create_constraints_table"/>
+			<transaction src="schema/create_requests_table"/>
+			<transaction src="schema/create_prefs_table"/>
+	</sql>
+  </target>
+  
+  <target name="populatedb">
+  	<sql driver="${db.driver}" 
+			url="${db.url}" 
+			userid="${db.user}" 
+			password="${db.pass}"
+			classpath="${classpath}">
+			<transaction src="schema/populate.sql"/>
+	</sql>
+  </target>
+  
+  <target name="dropdb">
+  	<exec executable="dropdb">
+  		<arg line="${db.name}"/>
+  	</exec>
+  	<exec executable="dropuser">
+  		<arg line="${db.user}"/>
+  	</exec>
+  </target>
+  
+  <target name="installdb" depends="createdb,definedb,populatedb"/>
+  
+  <target name="uninstalldb" depends="dropdb" />
+
+</project>
+  

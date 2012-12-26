@@ -1,0 +1,5 @@
+This directory contains all third party libraries required by the framework.
+
+08/27/2000 hsheil - added log4j-full.jar since it is required by the logging component
+08/27/2000 hsheil - added ant.jar since it is required by the manager component
+

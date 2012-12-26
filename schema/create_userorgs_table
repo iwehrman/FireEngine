@@ -1,0 +1,7 @@
+create table UserOrgs (
+	OrgID int,
+	UserID int,
+	primary key (userid,orgid),
+	CONSTRAINT organizations FOREIGN KEY (OrgID) REFERENCES organizations(orgid),
+	CONSTRAINT users FOREIGN KEY (UserID) REFERENCES users(userid)
+);

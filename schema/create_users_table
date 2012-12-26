@@ -1,0 +1,15 @@
+create table users (
+	UserID serial primary key,
+	UserAccess int not null check (useraccess <= 3),
+	UserName varchar(255) unique not null,
+	UserPass varchar(255) not null,
+	UserEmail varchar(255) unique not null,
+	UserFirstName varchar(255) not null,
+	UserLastName varchar(255) not null,
+	UserLoginAllowed boolean default true,
+	UserDateCreated timestamp not null, 
+	UserDateModified timestamp not null,
+	UserLastLoggedIn timestamp not null
+);
+grant all on users to ${db.user};
+grant all on users_userid_seq to ${db.user};

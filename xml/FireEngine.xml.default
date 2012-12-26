@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FireEngine debug="true"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="http://labfire.com/xml/fe/feConfig.xsd">
+
+ 	<Property name="exitoniniterror" value="true" />
+ 	<Property name="error" value="/error.jsp" />
+ 	<Property name="admin" value="webmaster@labfire.com" />
+ 	<Property name="load" value="/var/tomcat/common/lib/com.labfire.fe.jar" />
+	<Property name="debug" value="true" />
+	<Property name="virtualroot" value="/" />
+	 
+	<Service class="com.labfire.fe.auth.AuthenticationService">
+  		<Property name="secondstolive" value="1800" />
+	</Service>
+
+	<Service class="com.labfire.fe.cache.CacheService">
+ 	 	<Property name="intervalms" value="30000" />
+		<!--
+        <CachedResponseBundle uri="/wj/category.jsp" expires="0" cache="true" size="25" contentType="text/xhtml+xml">
+                <Dependency connection="fe" table="users" />
+				<Dependency connection="default" table="t1" />
+        </CachedResponseBundle>
+		-->
+	</Service>
+
+	<Service class="com.labfire.fe.config.ConfigService">
+		<Property name="filename" value="/var/tomcat/conf/ConfigService.xml" />
+	</Service>
+
+	<Service class="com.labfire.fe.db.ConnectionService">
+ 		<SystemConnection name="fe" user="ian" password="fender" url="jdbc:postgresql://sbox/fe" 
+			driver="org.postgresql.Driver" maxConnections="50" initConnections="5"
+			waitIfBusy="true" />
+		<!--
+		<Connection name="default" user="defaultUser" password="xxxx" url="jdbc:postgresql://sbox/defaultDb"
+			driver="org.postgresql.Driver" maxConnections="10" initConnections="2"
+			waitIfBusy="true">
+			<Constraint id="1" oid="1" aid="1" />
+		</Connection>
+		-->
+	</Service>
+
+	<Service class="com.labfire.fe.cron.CronService">
+  		<Property name="intervalms" value="10000" />
+	</Service>
+
+
+	<Service class="com.labfire.fe.log.LogService">
+		<Property name="logDir" value="/var/tomcat/logs/" />
+		<!-- Property name="format" value="xml" / -->
+		<!-- Property name="mailto" value="somebody@somewhere.com" / -->
+	</Service>
+
+	<Service class="com.labfire.fe.mail.MailService">
+ 		<Property name="host" value="mail.labfire.com" />
+	</Service>
+
+	<Service class="com.labfire.fe.auth.OrgAuthenticationService">
+  		<Property name="secondstolive" value="1800" />
+	</Service>
+
+	<Service class="com.labfire.fe.template.TemplateService">
+		<Property name="default" value="default" />
+		<Property name="request" value="template" />
+		
+		<!--
+		<Template name="admin_authentication_edit_panel" file="/t_admin/template_admin.jsp">
+			<Block name="main" file="/t_admin/AuthenticationEditPanel.jsp" expires="0" size="25">
+				<Parameter class="com.labfire.fe.common.TransientUser" />
+				<Dependency name="users" />
+			</Block>
+		</Template>	
+		-->
+		
+	</Service>
+	
+</FireEngine>
+
